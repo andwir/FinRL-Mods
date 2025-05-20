@@ -289,7 +289,9 @@ class FeatureEngineer:
 
         unique_date = df.date.unique()
         # start after a year
-        start = 252
+#AW 20250509 start = 252
+        start = int(len(unique_date) / 2)
+        
         turbulence_index = [0] * start
         # turbulence_index = [0]
         count = 0
@@ -298,7 +300,7 @@ class FeatureEngineer:
             # use one year rolling window to calcualte covariance
             hist_price = df_price_pivot[
                 (df_price_pivot.index < unique_date[i])
-                & (df_price_pivot.index >= unique_date[i - 252])
+                & (df_price_pivot.index >= unique_date[i - start])
             ]
             # Drop tickers which has number missing values more than the "oldest" ticker
             filtered_hist_price = hist_price.iloc[
