@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import datetime
 import time
 from datetime import date
@@ -38,6 +39,8 @@ class YahooFinanceProcessor:
     """
 
     def __init__(self):
+        os.environ["TZ"] = "America/New_York"
+        time.tzset()
         pass
 
     """
