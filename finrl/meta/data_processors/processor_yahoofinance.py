@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 import datetime
 import time
 from datetime import date
@@ -31,7 +30,8 @@ from stockstats import StockDataFrame as Sdf
 from webdriver_manager.chrome import ChromeDriverManager
 
 ### Added by aymeric75 for scrap_data function
-
+#AW added
+from zoneinfo import ZoneInfo
 
 class YahooFinanceProcessor:
     """Provides methods for retrieving daily stock data from
@@ -39,8 +39,6 @@ class YahooFinanceProcessor:
     """
 
     def __init__(self):
-        os.environ["TZ"] = "America/New_York"
-        time.tzset()
         pass
 
     """
@@ -539,8 +537,9 @@ class YahooFinanceProcessor:
         limit: int = 100,
     ) -> pd.DataFrame:
         time_interval = self.convert_interval(time_interval)
+      
+        end_datetime = datetime.datetime.now(ZoneInfo("America/New_York")) 
 
-        end_datetime = datetime.datetime.now()
         start_datetime = end_datetime - datetime.timedelta(
             minutes=limit + 1
         )  # get the last rows up to limit
@@ -551,12 +550,19 @@ class YahooFinanceProcessor:
                 tic, start_datetime, end_datetime, interval=time_interval
             )  # use start and end datetime to simulate the limit parameter
             barset["tic"] = tic
+            barset = barset.droplevel(1, axis=1)
             data_df = pd.concat([data_df, barset])
-        #AW yf.download auto_adjust = True so no Adj CLose column
-        #data_df = data_df.reset_index().drop(
-        #    columns=["Adj Close"]
-        #)  # Alpaca data does not have 'Adj Close'
 
+        if ("Adj Close" in data_df.columns):    #AW
+            data_df = data_df.reset_index().drop(
+                columns=["Adj Close"]
+            )  # Alpaca data does not have 'Adj Close'
+
+#AW rearrange order so its similar with alpaca output
+        new_order = ["Open", "High", "Low", "Close", "Volume", "tic"]
+        data_df = data_df[new_order]
+        data_df = data_df.reset_index()     #
+#AW
         data_df.columns = [  # convert to Alpaca column names lowercase
             "timestamp",
             "open",
@@ -642,6 +648,8 @@ class YahooFinanceProcessor:
         latest_price = price_array[-1]
         latest_tech = tech_array[-1]
         start_datetime = end_datetime - datetime.timedelta(minutes=1)
-        turb_df = yf.download("VIXY", start_datetime, limit=1)
+        #AW limit is not supported turb_df = yf.download("VIXY", start_datetime, limit=1)
+        turb_df = yf.download("VIXY", start_datetime)
+        
         latest_turb = turb_df["Close"].values
         return latest_price, latest_tech, latest_turb
