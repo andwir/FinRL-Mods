@@ -455,9 +455,7 @@ class AlpacaProcessor:
             barset["tic"] = tic
             barset = barset.reset_index()
             data_df = pd.concat([data_df, barset])
-#AW 20250612
-            time.sleep(1)
-#AW 20250612
+
         data_df = data_df.reset_index(drop=True)
         start_time = data_df.timestamp.min()
         end_time = data_df.timestamp.max()
