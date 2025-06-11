@@ -552,10 +552,10 @@ class YahooFinanceProcessor:
             )  # use start and end datetime to simulate the limit parameter
             barset["tic"] = tic
             data_df = pd.concat([data_df, barset])
-
-        data_df = data_df.reset_index().drop(
-            columns=["Adj Close"]
-        )  # Alpaca data does not have 'Adj Close'
+        #AW yf.download auto_adjust = True so no Adj CLose column
+        #data_df = data_df.reset_index().drop(
+        #    columns=["Adj Close"]
+        #)  # Alpaca data does not have 'Adj Close'
 
         data_df.columns = [  # convert to Alpaca column names lowercase
             "timestamp",
