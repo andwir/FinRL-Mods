@@ -2,13 +2,14 @@
 from __future__ import annotations
 
 import ray
-from ray.rllib.algorithms.a2c import a2c
+#AW from ray.rllib.algorithms.a2c import a2c
 from ray.rllib.algorithms.ddpg import ddpg
 from ray.rllib.algorithms.ppo import ppo
 from ray.rllib.algorithms.sac import sac
 from ray.rllib.algorithms.td3 import td3
 
-MODELS = {"a2c": a2c, "ddpg": ddpg, "td3": td3, "sac": sac, "ppo": ppo}
+#AW MODELS = {"a2c": a2c, "ddpg": ddpg, "td3": td3, "sac": sac, "ppo": ppo}
+MODELS = {"ddpg": ddpg, "td3": td3, "sac": sac, "ppo": ppo}
 
 
 # MODEL_KWARGS = {x: config.__dict__[f"{x.upper()}_PARAMS"] for x in MODELS.keys()}
