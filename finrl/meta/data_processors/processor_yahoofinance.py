@@ -657,5 +657,5 @@ class YahooFinanceProcessor:
         #AW limit is not supported turb_df = yf.download("VIXY", start_datetime, limit=1)
         turb_df = yf.download("VIXY", start_datetime)
         
-        latest_turb = turb_df["Close"].values
+        latest_turb = turb_df["Close"].values[0]
         return latest_price, latest_tech, latest_turb
