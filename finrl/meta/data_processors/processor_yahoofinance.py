@@ -641,7 +641,6 @@ class YahooFinanceProcessor:
 
         df = self.add_technical_indicator(new_df, tech_indicator_list)
         df["VIXY"] = 0
-        df.to_csv('C:\\Downloads\\csv\\df_yahoo.csv')
 
         #AW processor_yahoofinance & processor_alpaca have different add_technical_indicator
         # resort the returned dataframe so its has the same sequence as processor_alpaca
