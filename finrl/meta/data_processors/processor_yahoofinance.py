@@ -551,6 +551,8 @@ class YahooFinanceProcessor:
             )  # use start and end datetime to simulate the limit parameter
             barset["tic"] = tic
             barset = barset.droplevel(1, axis=1)
+            #new_order = ["Open", "High", "Low", "Close", "Volume", "tic"]
+            #barset = barset[new_order]
             data_df = pd.concat([data_df, barset])
 
         if ("Adj Close" in data_df.columns):    #AW
@@ -559,16 +561,14 @@ class YahooFinanceProcessor:
             )  # Alpaca data does not have 'Adj Close'
 
 #AW rearrange order so its similar with alpaca output
-        new_order = ["Open", "High", "Low", "Close", "Volume", "tic"]
-        data_df = data_df[new_order]
         data_df = data_df.reset_index()     #
 #AW
         data_df.columns = [  # convert to Alpaca column names lowercase
             "timestamp",
-            "open",
+            "close",
             "high",
             "low",
-            "close",
+            "open",
             "volume",
             "tic",
         ]
@@ -641,10 +641,17 @@ class YahooFinanceProcessor:
 
         df = self.add_technical_indicator(new_df, tech_indicator_list)
         df["VIXY"] = 0
+        df.to_csv('C:\\Downloads\\csv\\df_yahoo.csv')
+
+        #AW processor_yahoofinance & processor_alpaca have different add_technical_indicator
+        # resort the returned dataframe so its has the same sequence as processor_alpaca
+        df['tic'] = pd.Categorical(df.tic, ordered=True, categories=ticker_list)
+        df = df.sort_values(by=['tic','timestamp'])
 
         price_array, tech_array, turbulence_array = self.df_to_array(
             df, tech_indicator_list, if_vix=True
         )
+               
         latest_price = price_array[-1]
         latest_tech = tech_array[-1]
         start_datetime = end_datetime - datetime.timedelta(minutes=1)
