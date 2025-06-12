@@ -3,10 +3,10 @@ from __future__ import annotations
 
 import ray
 #AW from ray.rllib.algorithms.a2c import a2c
-from ray.rllib.algorithms.ddpg import ddpg
+#AW from ray.rllib.algorithms.ddpg import ddpg
 from ray.rllib.algorithms.ppo import ppo
 from ray.rllib.algorithms.sac import sac
-from ray.rllib.algorithms.td3 import td3
+#AW from ray.rllib.algorithms.td3 import td3
 
 #AW MODELS = {"a2c": a2c, "ddpg": ddpg, "td3": td3, "sac": sac, "ppo": ppo}
 MODELS = {"ddpg": ddpg, "td3": td3, "sac": sac, "ppo": ppo}
