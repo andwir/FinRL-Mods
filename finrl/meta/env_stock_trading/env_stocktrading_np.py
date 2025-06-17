@@ -15,8 +15,8 @@ class StockTradingEnv(gym.Env):
         min_stock_rate=0.1,
         max_stock=1e2,
         initial_capital=1e6,
-        buy_cost_pct=1e-3,
-        sell_cost_pct=1e-3,
+        buy_cost_pct=1e-2,
+        sell_cost_pct=1e-2,
         reward_scaling=2**-11,
         initial_stocks=None,
     ):
@@ -39,11 +39,7 @@ class StockTradingEnv(gym.Env):
         self.max_stock = max_stock
         self.min_stock_rate = min_stock_rate
         self.buy_cost_pct = buy_cost_pct
-        self.sell_cost_pct = sell_cost_pct
-
-        #AW
-        print(f"buy_cost_pct={buy_cost_pct}")
-        
+        self.sell_cost_pct = sell_cost_pct      
         self.reward_scaling = reward_scaling
         self.initial_capital = initial_capital
         self.initial_stocks = (
