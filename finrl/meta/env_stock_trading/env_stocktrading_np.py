@@ -40,6 +40,10 @@ class StockTradingEnv(gym.Env):
         self.min_stock_rate = min_stock_rate
         self.buy_cost_pct = buy_cost_pct
         self.sell_cost_pct = sell_cost_pct
+
+        #AW
+        print(f"buy_cost_pct={buy_cost_pct}")
+        
         self.reward_scaling = reward_scaling
         self.initial_capital = initial_capital
         self.initial_stocks = (
